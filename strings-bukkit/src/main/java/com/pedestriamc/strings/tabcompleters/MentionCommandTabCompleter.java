@@ -17,9 +17,6 @@ public class MentionCommandTabCompleter implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(args.length <= 1){
-            return list;
-        }
-        return empty;
+        return args.length > 1 ? empty : list;
     }
 }

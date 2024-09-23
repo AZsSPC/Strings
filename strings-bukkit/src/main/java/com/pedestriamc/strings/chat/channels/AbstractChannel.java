@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-abstract class AbstractChannel implements Channel{
+abstract class AbstractChannel implements Channel {
 
     private final Strings strings;
     private final ChannelManager channelManager;
@@ -53,6 +53,7 @@ abstract class AbstractChannel implements Channel{
     /**
      * Determines which players messages should be sent to.
      * Must be implemented by extending classes.
+     *
      * @param sender The sender of the message.
      * @return A Set<Player> of all players who will should the message.
      */
@@ -66,17 +67,17 @@ abstract class AbstractChannel implements Channel{
         String processedMessage = chatManager.processMessage(player, message);
         String finalForm = template.replace("{message}", processedMessage);
 
-        if(mentionsEnabled && player.hasPermission("strings.*") || player.hasPermission("strings.mention")) {
+        if (mentionsEnabled && player.hasPermission("strings.*") || player.hasPermission("strings.mention")) {
             finalForm = chatManager.processMentions(player, finalForm);
         }
 
-        if(callEvent){
+        if (callEvent) {
             String finalString = finalForm;
             Bukkit.getScheduler().runTask(strings, () -> {
                 AsyncPlayerChatEvent event = new ChannelChatEvent(false, player, message, recipients, this.getStringsChannel());
                 Bukkit.getPluginManager().callEvent(event);
-                if(!event.isCancelled()){
-                    for(Player p : recipients){
+                if (!event.isCancelled()) {
+                    for (Player p : recipients) {
                         p.sendMessage(finalString);
                     }
                     Bukkit.getLogger().info(ChatColor.stripColor(finalString));
@@ -86,7 +87,7 @@ abstract class AbstractChannel implements Channel{
             return;
         }
 
-        for(Player p : recipients){
+        for (Player p : recipients) {
             p.sendMessage(finalForm);
         }
         Bukkit.getLogger().info(ChatColor.stripColor(finalForm));
@@ -96,7 +97,7 @@ abstract class AbstractChannel implements Channel{
 
     @Override
     public void broadcastMessage(String message) {
-        for(Player p : getRecipients(null)){
+        for (Player p : getRecipients(null)) {
             p.sendMessage(message);
         }
     }
@@ -108,6 +109,7 @@ abstract class AbstractChannel implements Channel{
 
     /**
      * Base-line getData() implementation.  Most subclasses should override this.
+     *
      * @return A populated LinkedHashMap containing channel data
      */
     @Override
@@ -127,7 +129,7 @@ abstract class AbstractChannel implements Channel{
 
     @Override
     public StringsChannel getStringsChannel() {
-        if(stringsChannel == null){
+        if (stringsChannel == null) {
             stringsChannel = new ChannelWrapper(this);
         }
         return stringsChannel;
@@ -163,7 +165,7 @@ abstract class AbstractChannel implements Channel{
         this.name = name;
     }
 
-    public boolean isCallEvent(){
+    public boolean isCallEvent() {
         return callEvent;
     }
 
@@ -171,7 +173,7 @@ abstract class AbstractChannel implements Channel{
     public abstract void addPlayer(Player player);
 
     @Override
-    public void addPlayer(User user){
+    public void addPlayer(User user) {
         addPlayer(user.getPlayer());
     }
 
@@ -179,7 +181,7 @@ abstract class AbstractChannel implements Channel{
     public abstract void removePlayer(Player player);
 
     @Override
-    public void removePlayer(User user){
+    public void removePlayer(User user) {
         removePlayer(user.getPlayer());
     }
 

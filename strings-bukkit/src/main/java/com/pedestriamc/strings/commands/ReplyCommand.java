@@ -14,30 +14,30 @@ public class ReplyCommand implements CommandExecutor {
 
     private final PlayerDirectMessenger playerDirectMessenger;
 
-    public ReplyCommand(@NotNull Strings strings){
+    public ReplyCommand(@NotNull Strings strings) {
         this.playerDirectMessenger = strings.getPlayerDirectMessenger();
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args){
-        if(!(sender instanceof Player)){
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("[Strings] This command can only be used by players!");
             return true;
         }
-        if(!(sender.hasPermission("strings.chat.msg") || sender.hasPermission("strings.chat.*") || sender.hasPermission("strings.*"))){
+        if (!(sender.hasPermission("strings.chat.msg") || sender.hasPermission("strings.chat.*") || sender.hasPermission("strings.*"))) {
             Messenger.sendMessage(Message.NO_PERMS, sender);
             return true;
         }
-        if(args.length < 1){
+        if (args.length < 1) {
             Messenger.sendMessage(Message.INSUFFICIENT_ARGS, sender);
             return true;
         }
         StringBuilder message = new StringBuilder();
-        for(String arg : args){
+        for (String arg : args) {
             message.append(arg);
             message.append(" ");
         }
-        playerDirectMessenger.reply((Player) sender,message.toString().trim());
+        playerDirectMessenger.reply((Player) sender, message.toString().trim());
         return true;
     }
 }

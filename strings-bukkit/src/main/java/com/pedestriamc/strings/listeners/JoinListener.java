@@ -14,21 +14,21 @@ public class JoinListener implements Listener {
     private final ServerMessages serverMessages;
     private final boolean doMotd;
 
-    public JoinListener(Strings strings){
+    public JoinListener(Strings strings) {
         modifyJoinMessage = strings.getConfig().getBoolean("custom-join-leave-message", false);
         serverMessages = strings.getServerMessages();
         doMotd = strings.getConfig().getBoolean("enable-motd", false);
     }
 
     @EventHandler
-    public void onPlayerJoinEvent(PlayerJoinEvent event){
-        if(UserUtil.loadUser(event.getPlayer().getUniqueId()) == null){
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        if (UserUtil.loadUser(event.getPlayer().getUniqueId()) == null) {
             new User(event.getPlayer().getUniqueId());
         }
-        if(modifyJoinMessage){
+        if (modifyJoinMessage) {
             event.setJoinMessage(serverMessages.joinMessage(event.getPlayer()));
         }
-        if(doMotd){
+        if (doMotd) {
             serverMessages.sendMOTD(event.getPlayer());
         }
     }

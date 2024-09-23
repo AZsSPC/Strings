@@ -16,7 +16,7 @@ public final class UserWrapper implements StringsUser {
 
     private final User user;
 
-    public UserWrapper(User user){
+    public UserWrapper(User user) {
         this.user = user;
     }
 
@@ -116,11 +116,11 @@ public final class UserWrapper implements StringsUser {
         user.setMentionsEnabled(mentionsEnabled);
     }
 
-    public User getUser(){
+    public User getUser() {
         return this.user;
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return user.getPlayer();
     }
 }

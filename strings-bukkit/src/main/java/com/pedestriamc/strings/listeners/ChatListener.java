@@ -18,7 +18,7 @@ public class ChatListener implements Listener {
     private final ChatManager chatManager;
     private final Channel defaultChannel;
 
-    public ChatListener(Strings strings){
+    public ChatListener(Strings strings) {
         chatManager = strings.getChatManager();
         ChannelManager channelManager = strings.getChannelManager();
         defaultChannel = channelManager.getChannel("default");
@@ -27,7 +27,7 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
 
-        if(event instanceof ChannelChatEvent){
+        if (event instanceof ChannelChatEvent) {
             return;
         }
 
@@ -37,12 +37,12 @@ public class ChatListener implements Listener {
         User user = Strings.getInstance().getUser(playerSender);
         Channel channel = user.getActiveChannel();
 
-        if(channel == null){
+        if (channel == null) {
             user.setActiveChannel(defaultChannel);
             channel = user.getActiveChannel();
         }
 
-        if(chatManager.isOnCoolDown(playerSender) && user.getActiveChannel().doCooldown()){
+        if (chatManager.isOnCoolDown(playerSender) && user.getActiveChannel().doCooldown()) {
             event.setCancelled(true);
             Messenger.sendMessage(Message.COOL_DOWN, playerSender);
             return;

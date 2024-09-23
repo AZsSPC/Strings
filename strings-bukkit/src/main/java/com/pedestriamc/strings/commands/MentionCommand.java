@@ -64,7 +64,6 @@ public class MentionCommand implements CommandExecutor {
     private void enable(CommandSender sender, @NotNull User user){
         user.setMentionsEnabled(true);
         Messenger.sendMessage(Message.MENTIONS_ENABLED, sender);
-
     }
 
     private void disable(CommandSender sender, @NotNull User user){

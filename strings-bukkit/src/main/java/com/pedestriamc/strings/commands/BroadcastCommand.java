@@ -12,29 +12,30 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class BroadcastCommand implements CommandExecutor {
+public class
+BroadcastCommand implements CommandExecutor {
 
     private final String broadcastFormat;
     private final boolean usePAPI;
 
 
-    public BroadcastCommand(@NotNull Strings strings){
+    public BroadcastCommand(@NotNull Strings strings) {
         broadcastFormat = strings.getConfig().getString("broadcast-format", "&8[&3Broadcast&8] &f");
         usePAPI = strings.usePlaceholderAPI();
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args){
-        if(!sender.hasPermission("strings.chat.broadcast") && !sender.hasPermission("strings.chat.*") && !sender.hasPermission("strings.*")){
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!sender.hasPermission("strings.chat.broadcast") && !sender.hasPermission("strings.chat.*") && !sender.hasPermission("strings.*")) {
             Messenger.sendMessage(Message.NO_PERMS, sender);
             return true;
         }
         StringBuilder broadcast = new StringBuilder(broadcastFormat);
         String broadCastString;
-        if(sender.hasPermission("strings.chat.placeholdermsg") && usePAPI && (sender instanceof Player)){
+        if (sender.hasPermission("strings.chat.placeholdermsg") && usePAPI && (sender instanceof Player)) {
             PlaceholderAPI.setPlaceholders((Player) sender, broadcast.toString());
         }
-        for(String arg : args){
+        for (String arg : args) {
             broadcast.append(arg);
             broadcast.append(" ");
         }

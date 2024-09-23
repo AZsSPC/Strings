@@ -20,7 +20,7 @@ public final class ChannelWrapper implements StringsChannel {
 
     private final Channel channel;
 
-    public ChannelWrapper(Channel channel){
+    public ChannelWrapper(Channel channel) {
         this.channel = channel;
     }
 
@@ -127,7 +127,7 @@ public final class ChannelWrapper implements StringsChannel {
 
     @Override
     public Optional<World> getWorld() {
-        if(channel.getType() == Type.WORLD){
+        if (channel.getType() == Type.WORLD) {
             return Optional.of(((WorldChannel) channel).getWorld());
         }
         return Optional.empty();
@@ -135,7 +135,7 @@ public final class ChannelWrapper implements StringsChannel {
 
     @Override
     public OptionalDouble getOptionalProximity() {
-        if(!(channel instanceof ProximityChannel proximityChannel)){
+        if (!(channel instanceof ProximityChannel proximityChannel)) {
             return OptionalDouble.empty();
         }
         return OptionalDouble.of(proximityChannel.getProximity());
@@ -143,7 +143,7 @@ public final class ChannelWrapper implements StringsChannel {
 
     @Override
     public double getProximity() {
-        if(!(channel instanceof ProximityChannel proximityChannel)){
+        if (!(channel instanceof ProximityChannel proximityChannel)) {
             return -1;
         }
         return proximityChannel.getProximity();
@@ -161,7 +161,7 @@ public final class ChannelWrapper implements StringsChannel {
 
     @Override
     public void setProximity(double proximity) {
-        if(!(channel instanceof ProximityChannel)){
+        if (!(channel instanceof ProximityChannel)) {
             return;
         }
         ((ProximityChannel) channel).setProximity(proximity);

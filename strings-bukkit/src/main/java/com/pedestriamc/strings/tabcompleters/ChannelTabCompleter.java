@@ -12,12 +12,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChannelTabCompleter implements TabCompleter {
 
     private final ChannelManager channelManager;
 
-    public ChannelTabCompleter(@NotNull Strings strings){
+    public ChannelTabCompleter(@NotNull Strings strings) {
         this.channelManager = strings.getChannelManager();
     }
 
@@ -26,29 +27,23 @@ public class ChannelTabCompleter implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String @NotNull [] args) {
-        if(args.length <= 1){
-            List<String> list = channelManager.getNonProtectedChannelNames();
+        if (args.length <= 1) {
+            List<String> list = new ArrayList<>(channelManager.getNonProtectedChannelNames());
             list.add("join");
             list.add("leave");
             return list;
         }
-        if(args.length == 2){
-            if(args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("leave")){
-                return channelManager.getNonProtectedChannelNames();
-            }
-            ArrayList<String> list = new ArrayList<>();
-            for(Player p : Bukkit.getOnlinePlayers()){
-                list.add(p.getName());
-            }
-            return list;
+
+        if (args.length > 3) {
+            return empty;
         }
-        if(args.length == 3){
-            ArrayList<String> list = new ArrayList<>();
-            for(Player p : Bukkit.getOnlinePlayers()){
-                list.add(p.getName());
-            }
-            return list;
+
+        if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("leave")) {
+            return channelManager.getNonProtectedChannelNames();
         }
-        return empty;
+
+        return Bukkit.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .collect(Collectors.toList());
     }
 }

@@ -23,7 +23,7 @@ public final class StringsImpl implements StringsAPI {
     private final Mentioner mentioner;
     private boolean apiUsed;
 
-    public StringsImpl(@NotNull com.pedestriamc.strings.Strings strings){
+    public StringsImpl(@NotNull com.pedestriamc.strings.Strings strings) {
         this.strings = strings;
         this.channelManager = strings.getChannelManager();
         this.chatManager = strings.getChatManager();
@@ -48,7 +48,7 @@ public final class StringsImpl implements StringsAPI {
     public @Nullable StringsChannel getChannel(String name) {
         this.apiUsed = true;
         Channel c = channelManager.getChannel(name);
-        if(c == null){
+        if (c == null) {
             return null;
         }
         return c.getStringsChannel();
@@ -61,7 +61,7 @@ public final class StringsImpl implements StringsAPI {
     }
 
     @Override
-    public @Nullable StringsUser getStringsUser(UUID uuid){
+    public @Nullable StringsUser getStringsUser(UUID uuid) {
         this.apiUsed = true;
         return strings.getUser(uuid).getStringsUser();
     }
@@ -71,7 +71,7 @@ public final class StringsImpl implements StringsAPI {
         this.apiUsed = true;
         Channel[] worldChannels = channelManager.getWorldChannels(world);
         StringsChannel[] worldStringsChannels = new StringsChannel[worldChannels.length];
-        for(int i=0; i<worldChannels.length; i++){
+        for (int i = 0; i < worldChannels.length; i++) {
             worldStringsChannels[i] = worldChannels[i].getStringsChannel();
         }
         return worldStringsChannels;
@@ -125,21 +125,21 @@ public final class StringsImpl implements StringsAPI {
 
     @Override
     public void mention(StringsUser subject, StringsUser sender) {
-        if(!(subject instanceof UserWrapper subj)){
+        if (!(subject instanceof UserWrapper subj)) {
             return;
         }
-        if(!(sender instanceof UserWrapper sndr)){
+        if (!(sender instanceof UserWrapper sndr)) {
             return;
         }
         mentioner.mention(subj.getUser(), sndr.getUser());
     }
 
-    public short getVersion(){
+    public short getVersion() {
         this.apiUsed = true;
         return 2;
     }
 
-    public boolean isApiUsed(){
+    public boolean isApiUsed() {
         return apiUsed;
     }
 }

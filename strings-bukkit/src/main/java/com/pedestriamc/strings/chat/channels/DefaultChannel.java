@@ -16,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * The channel that players are assigned to by default.
  * This channel cannot process any messages, it instead determines the proper channel to be used.
  */
-public class DefaultChannel implements Channel{
+public class DefaultChannel implements Channel {
 
     private final ChannelManager channelManager;
     private final Set<Player> members;
     private final Strings strings;
 
-    public DefaultChannel(Strings strings, @NotNull ChannelManager channelManager){
+    public DefaultChannel(Strings strings, @NotNull ChannelManager channelManager) {
         this.channelManager = channelManager;
         this.members = ConcurrentHashMap.newKeySet();
         this.strings = strings;
@@ -32,26 +32,27 @@ public class DefaultChannel implements Channel{
     @Override
     public void sendMessage(Player player, String message) {
         Channel[] worldChannels = channelManager.getWorldPriorityChannels(player.getWorld());
-        if(worldChannels.length > 0){
+        if (worldChannels.length > 0) {
             worldChannels[0].sendMessage(player, message);
             return;
         }
         Channel[] defaultMembership = channelManager.getPriorityChannels();
-        if(defaultMembership.length > 0){
+        if (defaultMembership.length > 0) {
             defaultMembership[0].sendMessage(player, message);
             return;
         }
         User user = strings.getUser(player);
         Set<Channel> usersChannels = user.getChannels();
-        if(!usersChannels.isEmpty()){
-            Optional<Channel> optional =  usersChannels.stream().max(Comparator.comparingInt(Channel::getPriority));
+        if (!usersChannels.isEmpty()) {
+            Optional<Channel> optional = usersChannels.stream().max(Comparator.comparingInt(Channel::getPriority));
             optional.get().sendMessage(player, message);
         }
         player.sendMessage(ChatColor.RED + "[Strings] You aren't a member of any channels.  Please contact staff for help.");
     }
 
     @Override
-    public void broadcastMessage(String message) {}
+    public void broadcastMessage(String message) {
+    }
 
     @Override
     public String getFormat() {
@@ -69,13 +70,16 @@ public class DefaultChannel implements Channel{
     }
 
     @Override
-    public void setName(String name) {}
+    public void setName(String name) {
+    }
 
     @Override
-    public void setDefaultColor(String defaultColor) {}
+    public void setDefaultColor(String defaultColor) {
+    }
 
     @Override
-    public void setFormat(String format) {}
+    public void setFormat(String format) {
+    }
 
     @Override
     public void addPlayer(Player player) {
@@ -88,7 +92,9 @@ public class DefaultChannel implements Channel{
     }
 
     @Override
-    public void addPlayer(User user) { members.add(user.getPlayer()); }
+    public void addPlayer(User user) {
+        members.add(user.getPlayer());
+    }
 
     @Override
     public void removePlayer(User user) {
@@ -106,7 +112,8 @@ public class DefaultChannel implements Channel{
     }
 
     @Override
-    public void setUrlFilter(boolean doUrlFilter) {}
+    public void setUrlFilter(boolean doUrlFilter) {
+    }
 
     @Override
     public boolean doProfanityFilter() {
@@ -114,7 +121,8 @@ public class DefaultChannel implements Channel{
     }
 
     @Override
-    public void setProfanityFilter(boolean doProfanityFilter) {}
+    public void setProfanityFilter(boolean doProfanityFilter) {
+    }
 
     @Override
     public boolean doCooldown() {
@@ -122,7 +130,8 @@ public class DefaultChannel implements Channel{
     }
 
     @Override
-    public void setDoCooldown(boolean doCooldown) {}
+    public void setDoCooldown(boolean doCooldown) {
+    }
 
     @Override
     public Type getType() {

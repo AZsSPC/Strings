@@ -19,24 +19,24 @@ public class Mentioner {
     private final String format;
     private Sound sound;
 
-    public Mentioner(@NotNull Strings strings){
+    public Mentioner(@NotNull Strings strings) {
         this.strings = strings;
         FileConfiguration config = strings.getConfig();
         pitch = (float) config.getDouble("mention-pitch", 0.594604F);
         volume = (float) config.getDouble("mention-vol", 10F);
         format = ChatColor.translateAlternateColorCodes('&', config.getString("mention-format", "&e%sender% mentioned you."));
         //https://stackoverflow.com/questions/604424/how-to-get-an-enum-value-from-a-string-value-in-java
-        try{
+        try {
             sound = Sound.valueOf(config.getString("mention-sound"));
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Bukkit.getLogger().info("[Strings] Invalid sound-type for mentions in config.yml, resorting to: BLOCK_NOTE_BLOCK_PLING");
             sound = Sound.BLOCK_NOTE_BLOCK_PLING;
         }
 
     }
 
-    public void mention(@NotNull Player player, @NotNull Player sender){
-        if(!strings.getUser(player).isMentionsEnabled()){
+    public void mention(@NotNull Player player, @NotNull Player sender) {
+        if (!strings.getUser(player).isMentionsEnabled()) {
             return;
         }
         String str = format;
@@ -45,7 +45,7 @@ public class Mentioner {
         player.playSound(player.getLocation(), sound, volume, pitch);
     }
 
-    public void mention(@NotNull User user, @NotNull User sender){
+    public void mention(@NotNull User user, @NotNull User sender) {
         mention(user.getPlayer(), sender.getPlayer());
     }
 

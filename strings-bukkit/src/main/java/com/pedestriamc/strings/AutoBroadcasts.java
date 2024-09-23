@@ -21,24 +21,24 @@ public class AutoBroadcasts {
     private long interval;
     private final String order;
 
-    public AutoBroadcasts(@NotNull Strings strings){
+    public AutoBroadcasts(@NotNull Strings strings) {
         this.strings = strings;
         this.config = strings.getBroadcastsFileConfig();
         this.order = config.getString("sequence");
-        if(config.getBoolean("enabled", false)){
+        if (config.getBoolean("enabled", false)) {
             this.interval = calculateDelay(config.getString("delay"));
             this.loadBroadcastList();
             messageScheduler();
         }
     }
 
-    public void messageScheduler(){
+    public void messageScheduler() {
         scheduler.runTaskTimer(strings, this::broadcastMessage, 20L, interval);
     }
 
-    public long calculateDelay(String delay){
+    public long calculateDelay(String delay) {
         String regex = "^[0-9]+[sm]$";
-        if(delay == null || !delay.matches(regex)){
+        if (delay == null || !delay.matches(regex)) {
             Bukkit.getLogger().info("[Strings] Invalid broadcast delay in config.  Defaulting to 3m.");
             return 3600L;
         }
@@ -48,35 +48,35 @@ public class AutoBroadcasts {
         delay = delay.substring(0, delay.length() - 1);
         int delayNum = Integer.parseInt(delay);
         //Convert into seconds if in minutes
-        if(units == 'm'){
+        if (units == 'm') {
             delayNum *= 60;
         }
         // One tick = 0.05 seconds
         return delayNum * 20L;
     }
 
-    public void broadcastMessage(){
-        if(pos == broadcastList.size()){
+    public void broadcastMessage() {
+        if (pos >= broadcastList.size()) {
             pos = 0;
-            if(order.equalsIgnoreCase("random")){
+            if (order.equalsIgnoreCase("random")) {
                 Collections.shuffle(broadcastList);
             }
         }
-        for(int i=0; i<broadcastList.get(pos).length; i++){
+        for (int i = 0; i < broadcastList.get(pos).length; i++) {
             Bukkit.broadcastMessage(broadcastList.get(pos)[i]);
         }
         pos++;
     }
 
-    public void loadBroadcastList(){
+    public void loadBroadcastList() {
         ConfigurationSection section = config.getConfigurationSection("broadcasts");
-        if(section != null){
-            for(String key : section.getKeys(false)){
+        if (section != null) {
+            for (String key : section.getKeys(false)) {
                 List<String> messages = new ArrayList<>();
                 List<?> messageList = section.getList(key);
-                if(messageList != null){
-                    for(Object obj : messageList){
-                        if(obj instanceof String){
+                if (messageList != null) {
+                    for (Object obj : messageList) {
+                        if (obj instanceof String) {
                             messages.add(ChatColor.translateAlternateColorCodes('&', (String) obj));
                         }
                     }
@@ -84,7 +84,7 @@ public class AutoBroadcasts {
                 broadcastList.add(messages.toArray(new String[0]));
             }
         }
-        if(broadcastList.isEmpty()){
+        if (broadcastList.isEmpty()) {
             Bukkit.getLogger().warning("[Strings] No broadcasts found in broadcasts.yml");
         }
     }

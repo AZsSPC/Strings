@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MessageTabCompleter implements TabCompleter {
 
@@ -16,13 +17,9 @@ public class MessageTabCompleter implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if(args.length <= 1){
-            ArrayList<String> list = new ArrayList<>();
-            for(Player p : Bukkit.getOnlinePlayers()){
-                list.add(p.getName());
-            }
-            return list;
-        }
-        return empty;
+        return args.length > 1 ? empty
+                : Bukkit.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .collect(Collectors.toList());
     }
 }

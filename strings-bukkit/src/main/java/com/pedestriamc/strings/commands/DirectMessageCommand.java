@@ -15,35 +15,35 @@ public class DirectMessageCommand implements CommandExecutor {
 
     private final PlayerDirectMessenger playerDirectMessenger;
 
-    public DirectMessageCommand(@NotNull Strings strings){
+    public DirectMessageCommand(@NotNull Strings strings) {
         this.playerDirectMessenger = strings.getPlayerDirectMessenger();
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args){
-        if(!(sender instanceof Player)){
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("[Strings] This command can only be used by players!");
             return true;
         }
-        if(!(sender.hasPermission("strings.chat.msg") || sender.hasPermission("strings.chat.*") || sender.hasPermission("strings.*"))){
+        if (!(sender.hasPermission("strings.chat.msg") || sender.hasPermission("strings.chat.*") || sender.hasPermission("strings.*"))) {
             Messenger.sendMessage(Message.NO_PERMS, sender);
             return true;
         }
-        if(args.length < 2){
+        if (args.length < 2) {
             Messenger.sendMessage(Message.INSUFFICIENT_ARGS, sender);
             return true;
         }
         Player recipient = Bukkit.getPlayer(args[0]);
-        if(recipient == null){
+        if (recipient == null) {
             Messenger.sendMessage(Message.UNKNOWN_PLAYER, sender);
             return true;
         }
-        if(recipient.equals(sender)){
+        if (recipient.equals(sender)) {
             Messenger.sendMessage(Message.SELF_MESSAGE, sender);
             return true;
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 1; i < args.length; i++){
+        for (int i = 1; i < args.length; i++) {
             stringBuilder.append(args[i]);
             stringBuilder.append(" ");
         }

@@ -14,13 +14,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ProximityChannel extends AbstractChannel{
+public class ProximityChannel extends AbstractChannel {
 
     private final Set<Player> members;
     private double distance;
     private final World world;
 
-    public ProximityChannel(Strings strings, String name, String format, String defaultColor, ChannelManager channelManager, boolean callEvent, boolean doURLFilter, boolean doProfanityFilter, boolean doCooldown, double distance, Membership membership, int priority, World world){
+    public ProximityChannel(Strings strings, String name, String format, String defaultColor, ChannelManager channelManager, boolean callEvent, boolean doURLFilter, boolean doProfanityFilter, boolean doCooldown, double distance, Membership membership, int priority, World world) {
         super(strings, channelManager, name, defaultColor, format, membership, doCooldown, doProfanityFilter, doURLFilter, callEvent, priority);
         this.distance = distance;
         this.members = ConcurrentHashMap.newKeySet();
@@ -29,19 +29,19 @@ public class ProximityChannel extends AbstractChannel{
     }
 
 
-    public @NotNull HashSet<Player> getRecipients(Player sender){
+    public @NotNull HashSet<Player> getRecipients(Player sender) {
         HashSet<Player> recipients = new HashSet<>(members);
 
-        if(sender == null || !sender.getWorld().equals(world)){
+        if (sender == null || !sender.getWorld().equals(world)) {
             return new HashSet<>(world.getPlayers());
         }
 
         Location senderLocation = sender.getLocation();
-        for(Player p : world.getPlayers()){
+        for (Player p : world.getPlayers()) {
             Location pLocation = p.getLocation();
-            if(senderLocation.distance(pLocation) < distance){
+            if (senderLocation.distance(pLocation) < distance) {
                 recipients.add(p);
-            }else if(p.hasPermission("strings.channels." + this.getName() + ".receive")){
+            } else if (p.hasPermission("strings.channels." + this.getName() + ".receive")) {
                 recipients.add(p);
             }
         }
@@ -87,15 +87,15 @@ public class ProximityChannel extends AbstractChannel{
         return map;
     }
 
-    public double getProximity(){
+    public double getProximity() {
         return distance;
     }
 
-    public void setProximity(double proximity){
+    public void setProximity(double proximity) {
         this.distance = proximity;
     }
 
-    public World getWorld(){
+    public World getWorld() {
         return this.world;
     }
 

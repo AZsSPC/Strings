@@ -15,23 +15,23 @@ public class StringsCommand implements CommandExecutor {
 
     private final Strings strings;
 
-    public StringsCommand(@NotNull Strings strings){
+    public StringsCommand(@NotNull Strings strings) {
         this.strings = strings;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(args.length == 0){
+        if (args.length == 0) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[&3Strings&8] &fRunning Strings version &a" + strings.getVersion()));
             return true;
         }
-        if(args.length == 1 && args[0].equalsIgnoreCase("version")){
+        if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
             strings.reloadConfig();
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[&3Strings&8] &fRunning Strings version &a" + strings.getVersion()));
             return true;
         }
-        if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
-            if(sender.hasPermission("strings.reload") || sender instanceof ConsoleCommandSender){
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            if (sender.hasPermission("strings.reload") || sender instanceof ConsoleCommandSender) {
                 strings.reload();
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[&3Strings&8] &fStrings version &a" + strings.getVersion() + "&f reloaded."));
                 return true;
@@ -39,7 +39,7 @@ public class StringsCommand implements CommandExecutor {
             Messenger.sendMessage(Message.NO_PERMS, sender);
             return true;
         }
-        if(args.length == 1 && args[0].equalsIgnoreCase("help") && sender.hasPermission("strings.help")){
+        if (args.length == 1 && args[0].equalsIgnoreCase("help") && sender.hasPermission("strings.help")) {
             Messenger.sendMessage(Message.STRINGS_HELP, sender);
             return true;
         }

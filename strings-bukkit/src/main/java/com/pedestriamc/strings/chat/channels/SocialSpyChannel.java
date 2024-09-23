@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SocialSpyChannel implements Channel{
+public class SocialSpyChannel implements Channel {
 
     private String format;
     private final PlayerDirectMessenger playerDirectMessenger;
@@ -23,7 +23,7 @@ public class SocialSpyChannel implements Channel{
     private final ChannelManager channelManager;
     private StringsChannel stringsChannel;
 
-    public SocialSpyChannel(@NotNull ChannelManager channelManager, PlayerDirectMessenger messenger, String format){
+    public SocialSpyChannel(@NotNull ChannelManager channelManager, PlayerDirectMessenger messenger, String format) {
         this.format = format;
         this.playerDirectMessenger = messenger;
         this.spiesList = new HashSet<>();
@@ -31,26 +31,26 @@ public class SocialSpyChannel implements Channel{
         channelManager.registerChannel(this);
     }
 
-    public void sendOutMessage(Player sender, Player recipient, String message){
+    public void sendOutMessage(Player sender, Player recipient, String message) {
         String msg = format;
         msg = playerDirectMessenger.processPlaceholders(sender, recipient, msg);
         msg = msg.replace("{message}", message);
         msg = ChatColor.translateAlternateColorCodes('&', msg);
-        for(CommandSender spies : spiesList){
+        for (CommandSender spies : spiesList) {
             spies.sendMessage(msg);
         }
     }
 
     @Override
     public void sendMessage(Player player, String message) {
-        for(Player p : spiesList){
+        for (Player p : spiesList) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }
 
     @Override
     public void broadcastMessage(String message) {
-        for(Player p : spiesList){
+        for (Player p : spiesList) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }
@@ -71,10 +71,12 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void setName(String name) {}
+    public void setName(String name) {
+    }
 
     @Override
-    public void setDefaultColor(String defaultColor) {}
+    public void setDefaultColor(String defaultColor) {
+    }
 
     @Override
     public void setFormat(String format) {
@@ -87,7 +89,7 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void addPlayer(User user){
+    public void addPlayer(User user) {
         this.addPlayer(user.getPlayer());
     }
 
@@ -97,7 +99,7 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void removePlayer(User user){
+    public void removePlayer(User user) {
         this.removePlayer(user.getPlayer());
     }
 
@@ -112,7 +114,8 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void setUrlFilter(boolean doUrlFilter) {}
+    public void setUrlFilter(boolean doUrlFilter) {
+    }
 
     @Override
     public boolean doProfanityFilter() {
@@ -120,7 +123,8 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void setProfanityFilter(boolean doProfanityFilter) {}
+    public void setProfanityFilter(boolean doProfanityFilter) {
+    }
 
     @Override
     public boolean doCooldown() {
@@ -128,7 +132,8 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public void setDoCooldown(boolean doCooldown) {}
+    public void setDoCooldown(boolean doCooldown) {
+    }
 
     @Override
     public Type getType() {
@@ -151,8 +156,8 @@ public class SocialSpyChannel implements Channel{
     }
 
     @Override
-    public StringsChannel getStringsChannel(){
-        if(stringsChannel == null){
+    public StringsChannel getStringsChannel() {
+        if (stringsChannel == null) {
             stringsChannel = new ChannelWrapper(this);
         }
         return stringsChannel;

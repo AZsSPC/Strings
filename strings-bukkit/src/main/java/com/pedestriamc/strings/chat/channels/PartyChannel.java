@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * A Channel used for Parties, these channels cannot be saved and are deleted on reboot or when all players leave.
  */
-public class PartyChannel implements Channel{
+public class PartyChannel implements Channel {
 
     private String name;
     private Player leader;
@@ -22,7 +22,7 @@ public class PartyChannel implements Channel{
     private String color;
     private final ChannelManager channelManager;
 
-    public PartyChannel(String name, Player leader, String format, String color, ChannelManager channelManager){
+    public PartyChannel(String name, Player leader, String format, String color, ChannelManager channelManager) {
         this.name = name;
         this.leader = leader;
         this.members = ConcurrentHashMap.newKeySet();

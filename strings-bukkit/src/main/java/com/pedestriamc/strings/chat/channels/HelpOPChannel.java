@@ -46,43 +46,43 @@ public class HelpOPChannel implements Channel {
     }
 
     @Override
-    public void sendMessage(Player player, String message){
+    public void sendMessage(Player player, String message) {
         Set<Player> members = getRecipients();
         String format = chatManager.formatMessage(player, this);
         message = chatManager.processMessage(player, message);
         String finalMessage = message;
         String formattedMessage = format.replace("{message}", finalMessage);
-        if(callEvent){
-            Bukkit.getScheduler().runTask(strings, () ->{
+        if (callEvent) {
+            Bukkit.getScheduler().runTask(strings, () -> {
                 AsyncPlayerChatEvent event = new ChannelChatEvent(false, player, finalMessage, members, this.getStringsChannel());
                 Bukkit.getPluginManager().callEvent(event);
-                if(!event.isCancelled()){
-                    for(Player p : members){
+                if (!event.isCancelled()) {
+                    for (Player p : members) {
                         p.sendMessage(formattedMessage);
                     }
                     Bukkit.getLogger().info(ChatColor.stripColor(formattedMessage));
                 }
             });
-        }else{
-            for(Player p : members){
+        } else {
+            for (Player p : members) {
                 p.sendMessage(formattedMessage);
             }
             Bukkit.getLogger().info(ChatColor.stripColor(formattedMessage));
         }
     }
 
-    private Set<Player> getRecipients(){
+    private Set<Player> getRecipients() {
         HashSet<Player> members = new HashSet<>();
-        for(OfflinePlayer op : Bukkit.getOperators()){
-            if(op.getName() != null){
+        for (OfflinePlayer op : Bukkit.getOperators()) {
+            if (op.getName() != null) {
                 Player p = Bukkit.getPlayer(op.getName());
-                if(p != null){
+                if (p != null) {
                     members.add(p);
                 }
             }
         }
-        for(Player onlinePlayer : Bukkit.getOnlinePlayers()){
-            if(onlinePlayer.hasPermission("strings.helpop.receive") || onlinePlayer.hasPermission("strings.helpop.*") || onlinePlayer.hasPermission("strings.*")){
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            if (onlinePlayer.hasPermission("strings.helpop.receive") || onlinePlayer.hasPermission("strings.helpop.*") || onlinePlayer.hasPermission("strings.*")) {
                 members.add(onlinePlayer);
             }
         }
@@ -90,7 +90,8 @@ public class HelpOPChannel implements Channel {
     }
 
     @Override
-    public void broadcastMessage(String message) {}
+    public void broadcastMessage(String message) {
+    }
 
     @Override
     public String getFormat() {
@@ -123,16 +124,20 @@ public class HelpOPChannel implements Channel {
     }
 
     @Override
-    public void addPlayer(Player player) {}
+    public void addPlayer(Player player) {
+    }
 
     @Override
-    public void addPlayer(User user){}
+    public void addPlayer(User user) {
+    }
 
     @Override
-    public void removePlayer(Player player) {}
+    public void removePlayer(Player player) {
+    }
 
     @Override
-    public void removePlayer(User user){}
+    public void removePlayer(User user) {
+    }
 
     @Override
     public Set<Player> getMembers() {
@@ -165,7 +170,8 @@ public class HelpOPChannel implements Channel {
     }
 
     @Override
-    public void setDoCooldown(boolean doCooldown) {}
+    public void setDoCooldown(boolean doCooldown) {
+    }
 
     @Override
     public Type getType() {
@@ -173,8 +179,8 @@ public class HelpOPChannel implements Channel {
     }
 
     @Override
-    public StringsChannel getStringsChannel(){
-        if(stringsChannel == null){
+    public StringsChannel getStringsChannel() {
+        if (stringsChannel == null) {
             stringsChannel = new ChannelWrapper(this);
         }
         return stringsChannel;

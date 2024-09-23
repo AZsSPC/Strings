@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WorldChannel extends AbstractChannel{
+public class WorldChannel extends AbstractChannel {
 
     private final Set<Player> members;
     private final World world;
 
-    public WorldChannel(Strings strings, String name, String format, String defaultColor, ChannelManager channelManager, boolean callEvent, boolean doURLFilter, boolean doProfanityFilter, boolean doCooldown, World world, Membership membership, int priority){
-        super(strings, channelManager, name, defaultColor, format, membership, doCooldown, doProfanityFilter, doURLFilter,callEvent, priority);
+    public WorldChannel(Strings strings, String name, String format, String defaultColor, ChannelManager channelManager, boolean callEvent, boolean doURLFilter, boolean doProfanityFilter, boolean doCooldown, World world, Membership membership, int priority) {
+        super(strings, channelManager, name, defaultColor, format, membership, doCooldown, doProfanityFilter, doURLFilter, callEvent, priority);
         this.members = ConcurrentHashMap.newKeySet();
         this.world = world;
         channelManager.registerChannel(this);
@@ -27,11 +27,11 @@ public class WorldChannel extends AbstractChannel{
 
 
     @Override
-    public Set<Player> getRecipients(Player sender){
+    public Set<Player> getRecipients(Player sender) {
         HashSet<Player> recipients = new HashSet<>(world.getPlayers());
         recipients.addAll(members);
-        for(Player p : Bukkit.getOnlinePlayers()){
-            if(p.hasPermission("strings.channels." + this.getName() + ".receive")){
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (p.hasPermission("strings.channels." + this.getName() + ".receive")) {
                 recipients.add(p);
             }
         }
@@ -58,7 +58,7 @@ public class WorldChannel extends AbstractChannel{
         return Type.WORLD;
     }
 
-    public World getWorld(){
+    public World getWorld() {
         return world;
     }
 

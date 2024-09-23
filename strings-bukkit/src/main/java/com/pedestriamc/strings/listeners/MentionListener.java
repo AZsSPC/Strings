@@ -14,30 +14,28 @@ public class MentionListener implements Listener {
 
     private final Mentioner mentioner;
 
-    public MentionListener(Strings strings){
+    public MentionListener(Strings strings) {
         mentioner = strings.getMentioner();
     }
 
-    @EventHandler( priority = EventPriority.LOW)
-    public void onEvent(AsyncPlayerChatEvent event){
-        if(!(event instanceof ChannelChatEvent)){
+    @EventHandler(priority = EventPriority.LOW)
+    public void onEvent(AsyncPlayerChatEvent event) {
+        if (!(event instanceof ChannelChatEvent)) {
             return;
         }
+
         Player p = event.getPlayer();
-        if(!(p.hasPermission("strings.*") || p.hasPermission("strings.mention") || p.hasPermission("strings.mention.all"))){
+        if (!p.hasPermission("strings.*") && !p.hasPermission("strings.mention") && !p.hasPermission("strings.mention.all")) {
             return;
         }
-        for(Player subj : Bukkit.getOnlinePlayers()){
-            if(event.getMessage().contains("@" + subj.getName())){
-                mentioner.mention(subj, p);
-            }
-        }
-        if(p.hasPermission("strings.mention.all")){
-            if(event.getMessage().contains("@everyone")){
-                for(Player subj : Bukkit.getOnlinePlayers()){
-                    mentioner.mention(subj, p);
-                }
-            }
+
+        String message = event.getMessage();
+        Bukkit.getOnlinePlayers().stream()
+                .filter(subj -> message.contains("@" + subj.getName()))
+                .forEach(subj -> mentioner.mention(subj, p));
+
+        if (p.hasPermission("strings.mention.all") && message.contains("@everyone")) {
+            Bukkit.getOnlinePlayers().forEach(subj -> mentioner.mention(subj, p));
         }
     }
 }

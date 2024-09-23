@@ -22,7 +22,7 @@ public class PlayerDirectMessenger {
     private final String messageFormatRecipient;
     private final boolean usePAPI;
 
-    public PlayerDirectMessenger(@NotNull Strings strings){
+    public PlayerDirectMessenger(@NotNull Strings strings) {
         this.strings = strings;
         this.messageFormatSender = strings.getConfig().getString("msg-format-outgoing");
         this.messageFormatRecipient = strings.getConfig().getString("msg-format-receiving");
@@ -30,43 +30,43 @@ public class PlayerDirectMessenger {
 
     }
 
-    public void reply(@NotNull Player sender, @NotNull String message){
+    public void reply(@NotNull Player sender, @NotNull String message) {
         Player recipient = replyList.get(sender);
-        if(recipient == null){
+        if (recipient == null) {
             Messenger.sendMessage(Message.NO_REPLY, sender);
             return;
         }
-        if(!recipient.isOnline()){
+        if (!recipient.isOnline()) {
             Messenger.sendMessage(Message.PLAYER_OFFLINE, sender);
             return;
         }
-        sendMessage(sender,replyList.get(sender), message);
+        sendMessage(sender, replyList.get(sender), message);
     }
 
-    public void sendMessage(@NotNull Player sender, @NotNull Player recipient, @NotNull String message){
+    public void sendMessage(@NotNull Player sender, @NotNull Player recipient, @NotNull String message) {
         String senderString = messageFormatSender;
         String recipientString = messageFormatRecipient;
-        senderString = processPlaceholders(sender,recipient,senderString);
-        recipientString = processPlaceholders(sender,recipient, recipientString);
+        senderString = processPlaceholders(sender, recipient, senderString);
+        recipientString = processPlaceholders(sender, recipient, recipientString);
         senderString = senderString.replace("{message}", message);
-        recipientString = recipientString.replace("{message}",message);
-        if(usePAPI){
+        recipientString = recipientString.replace("{message}", message);
+        if (usePAPI) {
             senderString = PlaceholderAPI.setPlaceholders(recipient, senderString);
             recipientString = PlaceholderAPI.setPlaceholders(sender, recipientString);
         }
-        senderString = ChatColor.translateAlternateColorCodes('&',senderString);
+        senderString = ChatColor.translateAlternateColorCodes('&', senderString);
         recipientString = ChatColor.translateAlternateColorCodes('&', recipientString);
-        PlayerDirectMessageEvent event = new PlayerDirectMessageEvent(sender,recipient,message);
+        PlayerDirectMessageEvent event = new PlayerDirectMessageEvent(sender, recipient, message);
         Bukkit.getPluginManager().callEvent(event);
-        if(!event.isCancelled()){
+        if (!event.isCancelled()) {
             sender.sendMessage(senderString);
             recipient.sendMessage(recipientString);
             replyList.put(recipient, sender);
         }
     }
 
-    public String processPlaceholders(Player sender, Player recipient, String message){
-        if(message == null){
+    public String processPlaceholders(Player sender, Player recipient, String message) {
+        if (message == null) {
             return null;
         }
         User senderUser = strings.getUser(sender);
